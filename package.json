@@ -10,6 +10,9 @@
 	"private": false,
 	"scripts": {
 		"build": "tsc",
+		"clean": "rm -rf dist node_modules package-lock.json",
+		"pull:upstream": "./scripts/pull-upstream.sh",
+		"rebuild": "npm run clean && npm run pull:upstream && npm install && npm run build",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"peerDependencies": {
