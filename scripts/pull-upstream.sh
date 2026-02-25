@@ -10,6 +10,7 @@ ERROR_SCHEMA_COMMIT=$(cd ../error-schema && git rev-parse --short HEAD)
 rsync -av --delete "$UPSTREAM_REPO_PATH/src/." "src/."
 rsync -av --delete \
 	"$UPSTREAM_REPO_PATH/CHANGELOG.md" \
+	"$UPSTREAM_REPO_PATH/LICENSE" \
 	"$UPSTREAM_REPO_PATH/package.json" \
 	"$UPSTREAM_REPO_PATH/README.md" \
 	"$UPSTREAM_REPO_PATH/ROADMAP.md" \
