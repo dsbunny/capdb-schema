@@ -1,4 +1,9 @@
 # Changelog
+## v3.1.6
+- Bump to `zod@4.3.6`.
+- Add dependency to `@dsbunny/error-schema`.
+- Add `CapDbRequest` and `CapDbResponse` service wide types.
+
 ## v3.1.5
 - Bump to `zod@4.1.11`.
 - Move Zod to `peerDependencies` so users can bring their own Zod.

@@ -1,40 +1,13 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
 import * as z from "zod";
-import { 
-	Capability, 
-	CapabilityAudio, 
-	CapabilityImage, 
-	CapabilityVideo, 
+import { ErrorResponse } from "@dsbunny/error-schema";
+import {
+	Capability,
+	CapabilityAudio,
+	CapabilityImage,
+	CapabilityVideo,
 } from './capability.schema.js';
-
-// #region Errors
-export const ErrorResponse = z.object({
-	code: z.string()
-		.describe('Error code representing the type of error.'),
-	message: z.string()
-		.describe('Error message describing the issue.'),
-	detail: z.string()
-		.describe('Additional details about the error, if available.'),
-	timestamp: z.iso.datetime()
-		.describe('Timestamp when the error occurred (ISO_8601 format).'),
-})
-	.describe('Error response schema');
-export type ErrorResponse = z.infer<typeof ErrorResponse>;
-// #endregion
-
-// #region WebHook
-export const WebHookRequest = z.object({
-	ref_id: z.string(),
-	class: z.string(),
-})
-	  .describe('WebHook request schema');
-export type WebHookRequest = z.infer<typeof WebHookRequest>;
-
-export const WebHookResponse = z.object({})
-	  .describe('WebHook response schema');
-export type WebHookResponse = z.infer<typeof WebHookResponse>;
-// #endregion
 
 // #region Capabilities
 export const CreateVideoCapabilityRequest = z.array(CapabilityVideo)
@@ -93,4 +66,29 @@ export const GetImageCapabiltiesResponse = z.object({
 })
 	.describe('Get image capabilities response schema');
 export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResponse>;
+// #endregion
+
+// #region API
+export const CapDbRequest = z.union([
+	CreateVideoCapabilityRequest,
+	CreateAudioCapabilityRequest,
+	CreateImageCapabilityRequest,
+	GetVideoCapabiltiesRequest,
+	GetAudioCapabiltiesRequest,
+	GetImageCapabiltiesRequest,
+])
+	.describe('CapDB request schema');
+export type CapDbRequest = z.infer<typeof CapDbRequest>;
+
+export const CapDbResponse = z.union([
+	CreateVideoCapabilityResponse,
+	CreateAudioCapabilityResponse,
+	CreateImageCapabilityResponse,
+	GetVideoCapabiltiesResponse,
+	GetAudioCapabiltiesResponse,
+	GetImageCapabiltiesResponse,
+	ErrorResponse,
+])
+	.describe('CapDB response schema');
+export type CapDbResponse = z.infer<typeof CapDbResponse>;
 // #endregion

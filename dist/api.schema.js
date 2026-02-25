@@ -1,28 +1,7 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 import * as z from "zod";
+import { ErrorResponse } from "@dsbunny/error-schema";
 import { Capability, CapabilityAudio, CapabilityImage, CapabilityVideo, } from './capability.schema.js';
-// #region Errors
-export const ErrorResponse = z.object({
-    code: z.string()
-        .describe('Error code representing the type of error.'),
-    message: z.string()
-        .describe('Error message describing the issue.'),
-    detail: z.string()
-        .describe('Additional details about the error, if available.'),
-    timestamp: z.iso.datetime()
-        .describe('Timestamp when the error occurred (ISO_8601 format).'),
-})
-    .describe('Error response schema');
-// #endregion
-// #region WebHook
-export const WebHookRequest = z.object({
-    ref_id: z.string(),
-    class: z.string(),
-})
-    .describe('WebHook request schema');
-export const WebHookResponse = z.object({})
-    .describe('WebHook response schema');
-// #endregion
 // #region Capabilities
 export const CreateVideoCapabilityRequest = z.array(CapabilityVideo)
     .describe('Create video capability request schema');
@@ -63,5 +42,26 @@ export const GetImageCapabiltiesResponse = z.object({
         .describe('Token for pagination, null if no more results.'),
 })
     .describe('Get image capabilities response schema');
+// #endregion
+// #region API
+export const CapDbRequest = z.union([
+    CreateVideoCapabilityRequest,
+    CreateAudioCapabilityRequest,
+    CreateImageCapabilityRequest,
+    GetVideoCapabiltiesRequest,
+    GetAudioCapabiltiesRequest,
+    GetImageCapabiltiesRequest,
+])
+    .describe('CapDB request schema');
+export const CapDbResponse = z.union([
+    CreateVideoCapabilityResponse,
+    CreateAudioCapabilityResponse,
+    CreateImageCapabilityResponse,
+    GetVideoCapabiltiesResponse,
+    GetAudioCapabiltiesResponse,
+    GetImageCapabiltiesResponse,
+    ErrorResponse,
+])
+    .describe('CapDB response schema');
 // #endregion
 //# sourceMappingURL=api.schema.js.map

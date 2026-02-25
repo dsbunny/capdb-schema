@@ -1,7 +1,7 @@
 {
-	"name": "@dsbunny/capability-schema",
-	"version": "3.1.5",
-	"description": "Schema for Cap-DB",
+	"name": "@dsbunny/capdb-schema",
+	"version": "3.1.6",
+	"description": "Schema for CapDB APIs and media capabilities",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -15,11 +15,13 @@
 		"rebuild": "npm run clean && npm run pull:upstream && npm install && npm run build",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"peerDependencies": {
-		"zod": "^4.0.0"
-	},
 	"devDependencies": {
+		"@dsbunny/error-schema": "github:dsbunny/error-schema#a6a7a9c",
 		"typescript": "^5.9.3",
-		"zod": "^4.1.12"
+		"zod": "^4.3.6"
+	},
+	"peerDependencies": {
+		"@dsbunny/error-schema": "github:dsbunny/error-schema",
+		"zod": "^4.3.0"
 	}
 }

@@ -1,4 +1,4 @@
-# @dsbunny/capability-schema
+# @dsbunny/capdb-schema
 _ZOD_ based schema for media capabilities of a canvas.
 
 ## Dependency Installation
