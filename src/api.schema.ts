@@ -1,94 +1,94 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
 import * as z from "zod";
-import { ErrorResponse } from "@dsbunny/error-schema";
+import { ErrorResponseSchema } from "@dsbunny/error-schema";
 import {
-	Capability,
-	CapabilityAudio,
-	CapabilityImage,
-	CapabilityVideo,
+	CapabilitySchema,
+	CapabilityAudioSchema,
+	CapabilityImageSchema,
+	CapabilityVideoSchema,
 } from './capability.schema.js';
 
 // #region Capabilities
-export const CreateVideoCapabilityRequest = z.array(CapabilityVideo)
+export const CreateVideoCapabilityRequestSchema = z.array(CapabilityVideoSchema)
 	.describe('Create video capability request schema');
-export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequest>;
-export const CreateVideoCapabilityResponse = z.literal("Created")
+export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequestSchema>;
+export const CreateVideoCapabilityResponseSchema = z.literal("Created")
 	.describe('Create video capability response schema');
-export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponse>;
+export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponseSchema>;
 
-export const CreateAudioCapabilityRequest = z.array(CapabilityAudio)
+export const CreateAudioCapabilityRequestSchema = z.array(CapabilityAudioSchema)
 	.describe('Create audio capability request schema');
-export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequest>;
-export const CreateAudioCapabilityResponse = z.literal("Created")
+export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequestSchema>;
+export const CreateAudioCapabilityResponseSchema = z.literal("Created")
 	.describe('Create audio capability response schema');
-export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponse>;
+export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponseSchema>;
 
-export const CreateImageCapabilityRequest = z.array(CapabilityImage)
+export const CreateImageCapabilityRequestSchema = z.array(CapabilityImageSchema)
 	.describe('Create image capability request schema');
-export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequest>;
-export const CreateImageCapabilityResponse = z.literal("Created")
+export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequestSchema>;
+export const CreateImageCapabilityResponseSchema = z.literal("Created")
 	.describe('Create image capability response schema');
-export type CreateImageCapabilityResponse = z.infer<typeof CreateImageCapabilityResponse>;
+export type CreateImageCapabilityResponse = z.infer<typeof CreateImageCapabilityResponseSchema>;
 
-export const GetVideoCapabiltiesRequest = z.object({})
+export const GetVideoCapabiltiesRequestSchema = z.object({})
 	.describe('Get video capabilities request schema');
-export type GetVideoCapabiltiesRequest = z.infer<typeof GetVideoCapabiltiesRequest>;
-export const GetVideoCapabiltiesResponse = z.object({
-	capabilities: z.array(Capability)
+export type GetVideoCapabiltiesRequest = z.infer<typeof GetVideoCapabiltiesRequestSchema>;
+export const GetVideoCapabiltiesResponseSchema = z.object({
+	capabilities: z.array(CapabilitySchema)
 		.describe('Array of video capabilities retrieved.'),
 	next_token: z.string().nullable()
 		.describe('Token for pagination, null if no more results.'),
 })
 	.describe('Get video capabilities response schema');
-export type GetVideoCapabiltiesResponse = z.infer<typeof GetVideoCapabiltiesResponse>;
+export type GetVideoCapabiltiesResponse = z.infer<typeof GetVideoCapabiltiesResponseSchema>;
 
-export const GetAudioCapabiltiesRequest = z.object({})
+export const GetAudioCapabiltiesRequestSchema = z.object({})
 	.describe('Get audio capabilities request schema');
-export type GetAudioCapabiltiesRequest = z.infer<typeof GetAudioCapabiltiesRequest>;
-export const GetAudioCapabiltiesResponse = z.object({
-	capabilities: z.array(Capability)
+export type GetAudioCapabiltiesRequest = z.infer<typeof GetAudioCapabiltiesRequestSchema>;
+export const GetAudioCapabiltiesResponseSchema = z.object({
+	capabilities: z.array(CapabilitySchema)
 		.describe('Array of audio capabilities retrieved.'),
 	next_token: z.string().nullable()
 		.describe('Token for pagination, null if no more results.'),
 })
 	.describe('Get audio capabilities response schema');
-export type GetAudioCapabiltiesResponse = z.infer<typeof GetAudioCapabiltiesResponse>;
+export type GetAudioCapabiltiesResponse = z.infer<typeof GetAudioCapabiltiesResponseSchema>;
 
-export const GetImageCapabiltiesRequest = z.object({})
+export const GetImageCapabiltiesRequestSchema = z.object({})
 	.describe('Get image capabilities request schema');
-export type GetImageCapabiltiesRequest = z.infer<typeof GetImageCapabiltiesRequest>;
-export const GetImageCapabiltiesResponse = z.object({
-	capabilities: z.array(Capability)
+export type GetImageCapabiltiesRequest = z.infer<typeof GetImageCapabiltiesRequestSchema>;
+export const GetImageCapabiltiesResponseSchema = z.object({
+	capabilities: z.array(CapabilitySchema)
 		.describe('Array of image capabilities retrieved.'),
 	next_token: z.string().nullable()
 		.describe('Token for pagination, null if no more results.'),
 })
 	.describe('Get image capabilities response schema');
-export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResponse>;
+export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResponseSchema>;
 // #endregion
 
 // #region API
-export const CapDbRequest = z.union([
-	CreateVideoCapabilityRequest,
-	CreateAudioCapabilityRequest,
-	CreateImageCapabilityRequest,
-	GetVideoCapabiltiesRequest,
-	GetAudioCapabiltiesRequest,
-	GetImageCapabiltiesRequest,
+export const CapDbRequestSchema = z.union([
+	CreateVideoCapabilityRequestSchema,
+	CreateAudioCapabilityRequestSchema,
+	CreateImageCapabilityRequestSchema,
+	GetVideoCapabiltiesRequestSchema,
+	GetAudioCapabiltiesRequestSchema,
+	GetImageCapabiltiesRequestSchema,
 ])
 	.describe('CapDB request schema');
-export type CapDbRequest = z.infer<typeof CapDbRequest>;
+export type CapDbRequest = z.infer<typeof CapDbRequestSchema>;
 
-export const CapDbResponse = z.union([
-	CreateVideoCapabilityResponse,
-	CreateAudioCapabilityResponse,
-	CreateImageCapabilityResponse,
-	GetVideoCapabiltiesResponse,
-	GetAudioCapabiltiesResponse,
-	GetImageCapabiltiesResponse,
-	ErrorResponse,
+export const CapDbResponseSchema = z.union([
+	CreateVideoCapabilityResponseSchema,
+	CreateAudioCapabilityResponseSchema,
+	CreateImageCapabilityResponseSchema,
+	GetVideoCapabiltiesResponseSchema,
+	GetAudioCapabiltiesResponseSchema,
+	GetImageCapabiltiesResponseSchema,
+	ErrorResponseSchema,
 ])
 	.describe('CapDB response schema');
-export type CapDbResponse = z.infer<typeof CapDbResponse>;
+export type CapDbResponse = z.infer<typeof CapDbResponseSchema>;
 // #endregion

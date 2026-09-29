@@ -1,5 +1,5 @@
 import * as z from "zod";
-export declare const CreateVideoCapabilityRequest: z.ZodArray<z.ZodObject<{
+export declare const CreateVideoCapabilityRequestSchema: z.ZodArray<z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -10,10 +10,10 @@ export declare const CreateVideoCapabilityRequest: z.ZodArray<z.ZodObject<{
     height: z.ZodNumber;
     frame_rate: z.ZodNumber;
 }, z.core.$strip>>;
-export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequest>;
-export declare const CreateVideoCapabilityResponse: z.ZodLiteral<"Created">;
-export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponse>;
-export declare const CreateAudioCapabilityRequest: z.ZodArray<z.ZodObject<{
+export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequestSchema>;
+export declare const CreateVideoCapabilityResponseSchema: z.ZodLiteral<"Created">;
+export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponseSchema>;
+export declare const CreateAudioCapabilityRequestSchema: z.ZodArray<z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -23,10 +23,10 @@ export declare const CreateAudioCapabilityRequest: z.ZodArray<z.ZodObject<{
     sample_rate: z.ZodNumber;
     channels: z.ZodString;
 }, z.core.$strip>>;
-export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequest>;
-export declare const CreateAudioCapabilityResponse: z.ZodLiteral<"Created">;
-export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponse>;
-export declare const CreateImageCapabilityRequest: z.ZodArray<z.ZodObject<{
+export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequestSchema>;
+export declare const CreateAudioCapabilityResponseSchema: z.ZodLiteral<"Created">;
+export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponseSchema>;
+export declare const CreateImageCapabilityRequestSchema: z.ZodArray<z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     mime_type: z.ZodLiteral<"image">;
@@ -35,12 +35,12 @@ export declare const CreateImageCapabilityRequest: z.ZodArray<z.ZodObject<{
     is_smooth: z.ZodLiteral<false>;
     is_power_efficient: z.ZodLiteral<true>;
 }, z.core.$strip>>;
-export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequest>;
-export declare const CreateImageCapabilityResponse: z.ZodLiteral<"Created">;
-export type CreateImageCapabilityResponse = z.infer<typeof CreateImageCapabilityResponse>;
-export declare const GetVideoCapabiltiesRequest: z.ZodObject<{}, z.core.$strip>;
-export type GetVideoCapabiltiesRequest = z.infer<typeof GetVideoCapabiltiesRequest>;
-export declare const GetVideoCapabiltiesResponse: z.ZodObject<{
+export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequestSchema>;
+export declare const CreateImageCapabilityResponseSchema: z.ZodLiteral<"Created">;
+export type CreateImageCapabilityResponse = z.infer<typeof CreateImageCapabilityResponseSchema>;
+export declare const GetVideoCapabiltiesRequestSchema: z.ZodObject<{}, z.core.$strip>;
+export type GetVideoCapabiltiesRequest = z.infer<typeof GetVideoCapabiltiesRequestSchema>;
+export declare const GetVideoCapabiltiesResponseSchema: z.ZodObject<{
     capabilities: z.ZodArray<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
         mime_subtype: z.ZodString;
         is_supported: z.ZodBoolean;
@@ -78,10 +78,10 @@ export declare const GetVideoCapabiltiesResponse: z.ZodObject<{
     }, z.core.$strip>>>;
     next_token: z.ZodNullable<z.ZodString>;
 }, z.core.$strip>;
-export type GetVideoCapabiltiesResponse = z.infer<typeof GetVideoCapabiltiesResponse>;
-export declare const GetAudioCapabiltiesRequest: z.ZodObject<{}, z.core.$strip>;
-export type GetAudioCapabiltiesRequest = z.infer<typeof GetAudioCapabiltiesRequest>;
-export declare const GetAudioCapabiltiesResponse: z.ZodObject<{
+export type GetVideoCapabiltiesResponse = z.infer<typeof GetVideoCapabiltiesResponseSchema>;
+export declare const GetAudioCapabiltiesRequestSchema: z.ZodObject<{}, z.core.$strip>;
+export type GetAudioCapabiltiesRequest = z.infer<typeof GetAudioCapabiltiesRequestSchema>;
+export declare const GetAudioCapabiltiesResponseSchema: z.ZodObject<{
     capabilities: z.ZodArray<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
         mime_subtype: z.ZodString;
         is_supported: z.ZodBoolean;
@@ -119,10 +119,10 @@ export declare const GetAudioCapabiltiesResponse: z.ZodObject<{
     }, z.core.$strip>>>;
     next_token: z.ZodNullable<z.ZodString>;
 }, z.core.$strip>;
-export type GetAudioCapabiltiesResponse = z.infer<typeof GetAudioCapabiltiesResponse>;
-export declare const GetImageCapabiltiesRequest: z.ZodObject<{}, z.core.$strip>;
-export type GetImageCapabiltiesRequest = z.infer<typeof GetImageCapabiltiesRequest>;
-export declare const GetImageCapabiltiesResponse: z.ZodObject<{
+export type GetAudioCapabiltiesResponse = z.infer<typeof GetAudioCapabiltiesResponseSchema>;
+export declare const GetImageCapabiltiesRequestSchema: z.ZodObject<{}, z.core.$strip>;
+export type GetImageCapabiltiesRequest = z.infer<typeof GetImageCapabiltiesRequestSchema>;
+export declare const GetImageCapabiltiesResponseSchema: z.ZodObject<{
     capabilities: z.ZodArray<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
         mime_subtype: z.ZodString;
         is_supported: z.ZodBoolean;
@@ -160,8 +160,8 @@ export declare const GetImageCapabiltiesResponse: z.ZodObject<{
     }, z.core.$strip>>>;
     next_token: z.ZodNullable<z.ZodString>;
 }, z.core.$strip>;
-export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResponse>;
-export declare const CapDbRequest: z.ZodUnion<readonly [z.ZodArray<z.ZodObject<{
+export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResponseSchema>;
+export declare const CapDbRequestSchema: z.ZodUnion<readonly [z.ZodArray<z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -189,8 +189,8 @@ export declare const CapDbRequest: z.ZodUnion<readonly [z.ZodArray<z.ZodObject<{
     is_smooth: z.ZodLiteral<false>;
     is_power_efficient: z.ZodLiteral<true>;
 }, z.core.$strip>>, z.ZodObject<{}, z.core.$strip>, z.ZodObject<{}, z.core.$strip>, z.ZodObject<{}, z.core.$strip>]>;
-export type CapDbRequest = z.infer<typeof CapDbRequest>;
-export declare const CapDbResponse: z.ZodUnion<readonly [z.ZodLiteral<"Created">, z.ZodLiteral<"Created">, z.ZodLiteral<"Created">, z.ZodObject<{
+export type CapDbRequest = z.infer<typeof CapDbRequestSchema>;
+export declare const CapDbResponseSchema: z.ZodUnion<readonly [z.ZodLiteral<"Created">, z.ZodLiteral<"Created">, z.ZodLiteral<"Created">, z.ZodObject<{
     capabilities: z.ZodArray<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
         mime_subtype: z.ZodString;
         is_supported: z.ZodBoolean;
@@ -307,4 +307,4 @@ export declare const CapDbResponse: z.ZodUnion<readonly [z.ZodLiteral<"Created">
     detail: z.ZodString;
     timestamp: z.ZodISODateTime;
 }, z.core.$strip>]>;
-export type CapDbResponse = z.infer<typeof CapDbResponse>;
+export type CapDbResponse = z.infer<typeof CapDbResponseSchema>;

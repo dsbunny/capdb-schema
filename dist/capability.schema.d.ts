@@ -1,13 +1,13 @@
 import * as z from "zod";
-export declare const CapabilityBase: z.ZodObject<{
+export declare const CapabilityBaseSchema: z.ZodObject<{
     mime_type: z.ZodString;
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
     is_power_efficient: z.ZodBoolean;
 }, z.core.$strip>;
-export type CapabilityBase = z.infer<typeof CapabilityBase>;
-export declare const CapabilityVideo: z.ZodObject<{
+export type CapabilityBase = z.infer<typeof CapabilityBaseSchema>;
+export declare const CapabilityVideoSchema: z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -18,8 +18,8 @@ export declare const CapabilityVideo: z.ZodObject<{
     height: z.ZodNumber;
     frame_rate: z.ZodNumber;
 }, z.core.$strip>;
-export type CapabilityVideo = z.infer<typeof CapabilityVideo>;
-export declare const CapabilityAudio: z.ZodObject<{
+export type CapabilityVideo = z.infer<typeof CapabilityVideoSchema>;
+export declare const CapabilityAudioSchema: z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -29,8 +29,8 @@ export declare const CapabilityAudio: z.ZodObject<{
     sample_rate: z.ZodNumber;
     channels: z.ZodString;
 }, z.core.$strip>;
-export type CapabilityAudio = z.infer<typeof CapabilityAudio>;
-export declare const CapabilityImage: z.ZodObject<{
+export type CapabilityAudio = z.infer<typeof CapabilityAudioSchema>;
+export declare const CapabilityImageSchema: z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     mime_type: z.ZodLiteral<"image">;
@@ -39,8 +39,8 @@ export declare const CapabilityImage: z.ZodObject<{
     is_smooth: z.ZodLiteral<false>;
     is_power_efficient: z.ZodLiteral<true>;
 }, z.core.$strip>;
-export type CapabilityImage = z.infer<typeof CapabilityImage>;
-export declare const CapabilityMetadata: z.ZodObject<{
+export type CapabilityImage = z.infer<typeof CapabilityImageSchema>;
+export declare const CapabilityMetadataSchema: z.ZodObject<{
     tenant_id: z.ZodUUID;
     capability_id: z.ZodUUID;
     create_timestamp: z.ZodISODateTime;
@@ -48,7 +48,7 @@ export declare const CapabilityMetadata: z.ZodObject<{
     is_deleted: z.ZodDefault<z.ZodBoolean>;
     row_number: z.ZodNumber;
 }, z.core.$strip>;
-export declare const CapabilityTypes: z.ZodDiscriminatedUnion<[z.ZodObject<{
+export declare const CapabilityTypesSchema: z.ZodDiscriminatedUnion<[z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -76,8 +76,8 @@ export declare const CapabilityTypes: z.ZodDiscriminatedUnion<[z.ZodObject<{
     is_smooth: z.ZodLiteral<false>;
     is_power_efficient: z.ZodLiteral<true>;
 }, z.core.$strip>], "mime_type">;
-export type CapabilityTypes = z.infer<typeof CapabilityTypes>;
-export declare const Capability: z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
+export type CapabilityTypes = z.infer<typeof CapabilityTypesSchema>;
+export declare const CapabilitySchema: z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -112,8 +112,8 @@ export declare const Capability: z.ZodIntersection<z.ZodDiscriminatedUnion<[z.Zo
     is_deleted: z.ZodDefault<z.ZodBoolean>;
     row_number: z.ZodNumber;
 }, z.core.$strip>>;
-export type Capability = z.infer<typeof Capability>;
-export declare const DbDtoFromCapability: z.ZodPipe<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
+export type Capability = z.infer<typeof CapabilitySchema>;
+export declare const DbDtoFromCapabilitySchema: z.ZodPipe<z.ZodIntersection<z.ZodDiscriminatedUnion<[z.ZodObject<{
     mime_subtype: z.ZodString;
     is_supported: z.ZodBoolean;
     is_smooth: z.ZodBoolean;
@@ -193,7 +193,7 @@ export declare const DbDtoFromCapability: z.ZodPipe<z.ZodIntersection<z.ZodDiscr
     is_deleted: boolean;
     row_number: number;
 }>>;
-export declare const DbDtoToCapability: z.ZodPipe<z.ZodObject<{
+export declare const DbDtoToCapabilitySchema: z.ZodPipe<z.ZodObject<{
     capability_id: z.ZodUUID;
     tenant_id: z.ZodUUID;
     mime_type: z.ZodString;

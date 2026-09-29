@@ -1,4 +1,7 @@
 # Changelog
+## v4.0.7
+- Split schema definitions to separate Schema suffix to resolve vsCode and tooling confusion.
+
 ## v3.1.6
 - Bump to `zod@4.3.6`.
 - Add dependency to `@dsbunny/error-schema`.

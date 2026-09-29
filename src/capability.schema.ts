@@ -1,10 +1,10 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 
 import * as z from "zod";
-import { sqliteDateSchema } from './sqlite-date.schema.js';
+import { SqliteDateSchema } from './sqlite-date.schema.js';
 import { jsonSafeParser } from './json-safe-parser.js';
 
-export const CapabilityBase = z.object({
+export const CapabilityBaseSchema = z.object({
 	mime_type: z.string().min(3).max(512)
 		.describe('The MIME type of the capability'),
 	mime_subtype: z.string().min(3).max(512)
@@ -16,9 +16,9 @@ export const CapabilityBase = z.object({
 	is_power_efficient: z.boolean()
 		.describe('Whether the capability is power efficient'),
 });
-export type CapabilityBase = z.infer<typeof CapabilityBase>;
+export type CapabilityBase = z.infer<typeof CapabilityBaseSchema>;
 
-export const CapabilityVideo = CapabilityBase.extend({
+export const CapabilityVideoSchema = CapabilityBaseSchema.extend({
 	mime_type: z.literal('video'),
 	codec: z.string().min(3).max(512)
 		.describe('The RFC-6381 codec of the capability'),
@@ -30,9 +30,9 @@ export const CapabilityVideo = CapabilityBase.extend({
 		.describe('Maximum frames per second of the capability'),
 })
 	.describe('The video capability');
-export type CapabilityVideo = z.infer<typeof CapabilityVideo>;
+export type CapabilityVideo = z.infer<typeof CapabilityVideoSchema>;
 
-export const CapabilityAudio = CapabilityBase.extend({
+export const CapabilityAudioSchema = CapabilityBaseSchema.extend({
 	mime_type: z.literal('audio'),
 	codec: z.string().min(3).max(512)
 		.describe('The RFC-6381 codec of the capability'),
@@ -45,9 +45,9 @@ export const CapabilityAudio = CapabilityBase.extend({
 		.describe('Maximum number of channels of the capability'),
 })
 	.describe('The audio capability');
-export type CapabilityAudio = z.infer<typeof CapabilityAudio>;
+export type CapabilityAudio = z.infer<typeof CapabilityAudioSchema>;
 
-export const CapabilityImage = CapabilityBase.extend({
+export const CapabilityImageSchema = CapabilityBaseSchema.extend({
 	mime_type: z.literal('image'),
 	width: z.number().int().min(1).max(65535)
 		.describe('Maximum width of the capability'),
@@ -59,9 +59,9 @@ export const CapabilityImage = CapabilityBase.extend({
 		.describe('Images are power efficient, as they are static'),
 })
 	.describe('The image capability');
-export type CapabilityImage = z.infer<typeof CapabilityImage>;
+export type CapabilityImage = z.infer<typeof CapabilityImageSchema>;
 
-export const CapabilityMetadata = z.object({
+export const CapabilityMetadataSchema = z.object({
 	tenant_id: z.uuid()
 		.describe('The UUID of the tenant'),
 	capability_id: z.uuid()
@@ -76,17 +76,17 @@ export const CapabilityMetadata = z.object({
 		.describe('The row number of the capability'),
 });
 
-export const CapabilityTypes = z.discriminatedUnion("mime_type", [
-	CapabilityVideo,
-	CapabilityAudio,
-	CapabilityImage,
+export const CapabilityTypesSchema = z.discriminatedUnion("mime_type", [
+	CapabilityVideoSchema,
+	CapabilityAudioSchema,
+	CapabilityImageSchema,
 ]);
-export type CapabilityTypes = z.infer<typeof CapabilityTypes>;
+export type CapabilityTypes = z.infer<typeof CapabilityTypesSchema>;
 
-export const Capability = z.intersection(CapabilityTypes, CapabilityMetadata);
-export type Capability = z.infer<typeof Capability>;
+export const CapabilitySchema = z.intersection(CapabilityTypesSchema, CapabilityMetadataSchema);
+export type Capability = z.infer<typeof CapabilitySchema>;
 
-export const DbDtoFromCapability = Capability.transform((capability, ctx) => {
+export const DbDtoFromCapabilitySchema = CapabilitySchema.transform((capability, ctx) => {
 	let detail: string;
 	if(capability.mime_type === 'video') {
 		detail = JSON.stringify({
@@ -130,21 +130,21 @@ export const DbDtoFromCapability = Capability.transform((capability, ctx) => {
 	};
 });
 
-export const DbDtoToCapability = z.object({
+export const DbDtoToCapabilitySchema = z.object({
 	capability_id: z.uuid(),
 	tenant_id: z.uuid(),
 	mime_type: z.string().min(3).max(512),
 	mime_subtype: z.string().min(3).max(512),
 	detail: z.string().min(3).max(512),
 	is_supported: z.number().default(0),
-	create_timestamp: sqliteDateSchema,
-	modify_timestamp: sqliteDateSchema,
+	create_timestamp: SqliteDateSchema,
+	modify_timestamp: SqliteDateSchema,
 	is_deleted: z.number().default(0),
 	row_number: z.number().int(),
 })
 .transform((dto, ctx): Capability => {
 	if(dto.mime_type === 'video') {
-		const detail = jsonSafeParser(CapabilityVideo).safeParse(dto.detail);
+		const detail = jsonSafeParser(CapabilityVideoSchema).safeParse(dto.detail);
 		if(!detail.success) {
 			ctx.addIssue({
 				code: "custom",
@@ -163,7 +163,7 @@ export const DbDtoToCapability = z.object({
 			row_number: dto.row_number,
 		};
 	} else if(dto.mime_type === 'audio') {
-		const detail = jsonSafeParser(CapabilityAudio).safeParse(dto.detail);
+		const detail = jsonSafeParser(CapabilityAudioSchema).safeParse(dto.detail);
 		if(!detail.success) {
 			ctx.addIssue({
 				code: "custom",
@@ -182,7 +182,7 @@ export const DbDtoToCapability = z.object({
 			row_number: dto.row_number,
 		};
 	} else if(dto.mime_type === 'image') {
-		const detail = jsonSafeParser(CapabilityImage).safeParse(dto.detail);
+		const detail = jsonSafeParser(CapabilityImageSchema).safeParse(dto.detail);
 		if(!detail.success) {
 			ctx.addIssue({
 				code: "custom",
