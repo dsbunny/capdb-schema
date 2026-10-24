@@ -1,7 +1,6 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
 import * as z from "zod";
-import { SqliteDateSchema } from './sqlite-date.schema.js';
-import { jsonSafeParser } from './json-safe-parser.js';
+import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 export const CapabilityBaseSchema = z.object({
     mime_type: z.string().min(3).max(512)
         .describe('The MIME type of the capability'),
@@ -13,6 +12,9 @@ export const CapabilityBaseSchema = z.object({
         .describe('Whether the capability is smooth'),
     is_power_efficient: z.boolean()
         .describe('Whether the capability is power efficient'),
+}).register(dsbunnyRegistry, {
+    id: 'CapabilityBaseSchema',
+    description: 'The base schema for a capability, including MIME type, support, smoothness, and power efficiency',
 });
 export const CapabilityVideoSchema = CapabilityBaseSchema.extend({
     mime_type: z.literal('video'),
@@ -24,8 +26,10 @@ export const CapabilityVideoSchema = CapabilityBaseSchema.extend({
         .describe('Maximum height of the capability'),
     frame_rate: z.number().int().min(1).max(1000)
         .describe('Maximum frames per second of the capability'),
-})
-    .describe('The video capability');
+}).register(dsbunnyRegistry, {
+    id: 'CapabilityVideoSchema',
+    description: 'The video capability',
+});
 export const CapabilityAudioSchema = CapabilityBaseSchema.extend({
     mime_type: z.literal('audio'),
     codec: z.string().min(3).max(512)
@@ -37,8 +41,10 @@ export const CapabilityAudioSchema = CapabilityBaseSchema.extend({
     // An integer cannot represent 5.1 surround sound.
     channels: z.string().min(1).max(512)
         .describe('Maximum number of channels of the capability'),
-})
-    .describe('The audio capability');
+}).register(dsbunnyRegistry, {
+    id: 'CapabilityAudioSchema',
+    description: 'The audio capability',
+});
 export const CapabilityImageSchema = CapabilityBaseSchema.extend({
     mime_type: z.literal('image'),
     width: z.number().int().min(1).max(65535)
@@ -49,8 +55,10 @@ export const CapabilityImageSchema = CapabilityBaseSchema.extend({
         .describe('Images are not smooth, as they are static'),
     is_power_efficient: z.literal(true)
         .describe('Images are power efficient, as they are static'),
-})
-    .describe('The image capability');
+}).register(dsbunnyRegistry, {
+    id: 'CapabilityImageSchema',
+    description: 'The image capability',
+});
 export const CapabilityMetadataSchema = z.object({
     tenant_id: z.uuid()
         .describe('The UUID of the tenant'),
@@ -64,137 +72,20 @@ export const CapabilityMetadataSchema = z.object({
         .describe('Whether the capability is deleted'),
     row_number: z.number().int()
         .describe('The row number of the capability'),
+}).register(dsbunnyRegistry, {
+    id: 'CapabilityMetadataSchema',
+    description: 'The metadata of a capability, including tenant ID, capability ID, timestamps, deletion status, and row number',
 });
 export const CapabilityTypesSchema = z.discriminatedUnion("mime_type", [
     CapabilityVideoSchema,
     CapabilityAudioSchema,
     CapabilityImageSchema,
-]);
-export const CapabilitySchema = z.intersection(CapabilityTypesSchema, CapabilityMetadataSchema);
-export const DbDtoFromCapabilitySchema = CapabilitySchema.transform((capability, ctx) => {
-    let detail;
-    if (capability.mime_type === 'video') {
-        detail = JSON.stringify({
-            codec: capability.codec,
-            width: capability.width,
-            height: capability.height,
-            frame_rate: capability.frame_rate,
-            is_smooth: capability.is_smooth,
-            is_power_efficient: capability.is_power_efficient,
-        });
-    }
-    else if (capability.mime_type === 'audio') {
-        detail = JSON.stringify({
-            codec: capability.codec,
-            sample_rate: capability.sample_rate,
-            channels: capability.channels,
-        });
-    }
-    else if (capability.mime_type === 'image') {
-        detail = JSON.stringify({
-            width: capability.width,
-            height: capability.height,
-        });
-    }
-    else {
-        ctx.addIssue({
-            code: "custom",
-            message: 'Invalid mime type',
-            fatal: true,
-        });
-        return z.NEVER;
-    }
-    return {
-        capability_id: capability.capability_id,
-        tenant_id: capability.tenant_id,
-        mime_type: capability.mime_type,
-        mime_subtype: capability.mime_subtype,
-        detail,
-        is_supported: capability.is_supported,
-        create_timestamp: capability.create_timestamp,
-        modify_timestamp: capability.modify_timestamp,
-        is_deleted: capability.is_deleted,
-        row_number: capability.row_number,
-    };
+]).register(dsbunnyRegistry, {
+    id: 'CapabilityTypesSchema',
+    description: 'The types of capabilities, including video, audio, and image',
 });
-export const DbDtoToCapabilitySchema = z.object({
-    capability_id: z.uuid(),
-    tenant_id: z.uuid(),
-    mime_type: z.string().min(3).max(512),
-    mime_subtype: z.string().min(3).max(512),
-    detail: z.string().min(3).max(512),
-    is_supported: z.number().default(0),
-    create_timestamp: SqliteDateSchema,
-    modify_timestamp: SqliteDateSchema,
-    is_deleted: z.number().default(0),
-    row_number: z.number().int(),
-})
-    .transform((dto, ctx) => {
-    if (dto.mime_type === 'video') {
-        const detail = jsonSafeParser(CapabilityVideoSchema).safeParse(dto.detail);
-        if (!detail.success) {
-            ctx.addIssue({
-                code: "custom",
-                message: 'Failed to parse video capability',
-                fatal: true,
-            });
-            return z.NEVER;
-        }
-        return {
-            ...detail.data,
-            tenant_id: dto.tenant_id,
-            capability_id: dto.capability_id,
-            create_timestamp: dto.create_timestamp,
-            modify_timestamp: dto.modify_timestamp,
-            is_deleted: Boolean(dto.is_deleted),
-            row_number: dto.row_number,
-        };
-    }
-    else if (dto.mime_type === 'audio') {
-        const detail = jsonSafeParser(CapabilityAudioSchema).safeParse(dto.detail);
-        if (!detail.success) {
-            ctx.addIssue({
-                code: "custom",
-                message: 'Failed to parse audio capability',
-                fatal: true,
-            });
-            return z.NEVER;
-        }
-        return {
-            ...detail.data,
-            tenant_id: dto.tenant_id,
-            capability_id: dto.capability_id,
-            create_timestamp: dto.create_timestamp,
-            modify_timestamp: dto.modify_timestamp,
-            is_deleted: Boolean(dto.is_deleted),
-            row_number: dto.row_number,
-        };
-    }
-    else if (dto.mime_type === 'image') {
-        const detail = jsonSafeParser(CapabilityImageSchema).safeParse(dto.detail);
-        if (!detail.success) {
-            ctx.addIssue({
-                code: "custom",
-                message: 'Failed to parse image capability',
-                fatal: true,
-            });
-            return z.NEVER;
-        }
-        return {
-            ...detail.data,
-            tenant_id: dto.tenant_id,
-            capability_id: dto.capability_id,
-            create_timestamp: dto.create_timestamp,
-            modify_timestamp: dto.modify_timestamp,
-            is_deleted: Boolean(dto.is_deleted),
-            row_number: dto.row_number,
-        };
-    }
-    ctx.addIssue({
-        code: "custom",
-        message: 'Invalid mime type',
-        fatal: true,
-    });
-    return z.NEVER;
+export const CapabilitySchema = z.intersection(CapabilityTypesSchema, CapabilityMetadataSchema).register(dsbunnyRegistry, {
+    id: 'CapabilitySchema',
+    description: 'The complete schema of a capability, including type-specific details and metadata',
 });
 //# sourceMappingURL=capability.schema.js.map

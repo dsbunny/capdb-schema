@@ -1,6 +1,6 @@
 {
 	"name": "@dsbunny/capdb-schema",
-	"version": "4.0.7",
+	"version": "4.1.8",
 	"description": "Schema for CapDB APIs and media capabilities",
 	"type": "module",
 	"main": "dist/index.js",
@@ -19,12 +19,14 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"devDependencies": {
-		"@dsbunny/error-schema": "github:dsbunny/error-schema#86d038b",
+		"@dsbunny/error-schema": "github:dsbunny/error-schema#5308be6",
+		"@dsbunny/zod-registry": "github:dsbunny/zod-registry#35c7ef6",
 		"typescript": "^5.9.3",
 		"zod": "^4.3.6"
 	},
 	"peerDependencies": {
 		"@dsbunny/error-schema": "github:dsbunny/error-schema",
+		"@dsbunny/zod-registry": "github:dsbunny/zod-registry",
 		"zod": "^4.3.0"
 	}
 }
