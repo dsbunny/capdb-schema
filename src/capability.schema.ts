@@ -4,6 +4,8 @@ import * as z from "zod";
 import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 
 export const CapabilityBaseSchema = z.object({
+	'@type': z.literal('CapabilityBase')
+		.describe('Type of the capability base'),
 	mime_type: z.string().min(3).max(512)
 		.describe('The MIME type of the capability'),
 	mime_subtype: z.string().min(3).max(512)
@@ -21,6 +23,8 @@ export const CapabilityBaseSchema = z.object({
 export type CapabilityBase = z.infer<typeof CapabilityBaseSchema>;
 
 export const CapabilityVideoSchema = CapabilityBaseSchema.extend({
+	'@type': z.literal('CapabilityVideo')
+		.describe('Type of the video capability'),
 	mime_type: z.literal('video'),
 	codec: z.string().min(3).max(512)
 		.describe('The RFC-6381 codec of the capability'),
@@ -37,6 +41,8 @@ export const CapabilityVideoSchema = CapabilityBaseSchema.extend({
 export type CapabilityVideo = z.infer<typeof CapabilityVideoSchema>;
 
 export const CapabilityAudioSchema = CapabilityBaseSchema.extend({
+	'@type': z.literal('CapabilityAudio')
+		.describe('Type of the audio capability'),
 	mime_type: z.literal('audio'),
 	codec: z.string().min(3).max(512)
 		.describe('The RFC-6381 codec of the capability'),
@@ -54,6 +60,8 @@ export const CapabilityAudioSchema = CapabilityBaseSchema.extend({
 export type CapabilityAudio = z.infer<typeof CapabilityAudioSchema>;
 
 export const CapabilityImageSchema = CapabilityBaseSchema.extend({
+	'@type': z.literal('CapabilityImage')
+		.describe('Type of the image capability'),
 	mime_type: z.literal('image'),
 	width: z.number().int().min(1).max(65535)
 		.describe('Maximum width of the capability'),
@@ -70,6 +78,8 @@ export const CapabilityImageSchema = CapabilityBaseSchema.extend({
 export type CapabilityImage = z.infer<typeof CapabilityImageSchema>;
 
 export const CapabilityMetadataSchema = z.object({
+	'@type': z.literal('CapabilityMetadata')
+		.describe('Type of the capability metadata'),
 	tenant_id: z.uuid()
 		.describe('The UUID of the tenant'),
 	capability_id: z.uuid()
@@ -87,17 +97,15 @@ export const CapabilityMetadataSchema = z.object({
 	description: 'The metadata of a capability, including tenant ID, capability ID, timestamps, deletion status, and row number',
 });
 
-export const CapabilityTypesSchema = z.discriminatedUnion("mime_type", [
-	CapabilityVideoSchema,
-	CapabilityAudioSchema,
-	CapabilityImageSchema,
-]).register(dsbunnyRegistry, {
-	id: 'CapabilityTypesSchema',
-	description: 'The types of capabilities, including video, audio, and image',
-});
-export type CapabilityTypes = z.infer<typeof CapabilityTypesSchema>;
-
-export const CapabilitySchema = z.intersection(CapabilityTypesSchema, CapabilityMetadataSchema).register(dsbunnyRegistry, {
+export const CapabilitySchema = CapabilityMetadataSchema.extend({
+	'@type': z.literal('Capability')
+		.describe('Type of the complete capability'),
+	data: z.discriminatedUnion("mime_type", [
+		CapabilityVideoSchema,
+		CapabilityAudioSchema,
+		CapabilityImageSchema,
+	]),
+}).register(dsbunnyRegistry, {
 	id: 'CapabilitySchema',
 	description: 'The complete schema of a capability, including type-specific details and metadata',
 });
