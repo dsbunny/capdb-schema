@@ -219,3 +219,4 @@ export declare const CapDbResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
     timestamp: z.ZodISODateTime;
 }, z.core.$strip>]>;
 export type CapDbResponse = z.infer<typeof CapDbResponseSchema>;
+//# sourceMappingURL=api.schema.d.ts.map

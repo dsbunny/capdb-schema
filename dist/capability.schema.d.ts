@@ -94,3 +94,4 @@ export declare const CapabilitySchema: z.ZodObject<{
     }, z.core.$strip>], "mime_type">;
 }, z.core.$strip>;
 export type Capability = z.infer<typeof CapabilitySchema>;
+//# sourceMappingURL=capability.schema.d.ts.map

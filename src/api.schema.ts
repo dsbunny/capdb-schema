@@ -1,10 +1,10 @@
 // vim: tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 nosmarttab
+// `@type` field is optional for requests with no other required fields.
 
 import * as z from "zod";
 import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 import { ErrorResponseSchema } from "@dsbunny/error-schema";
 import {
-	CapabilitySchema,
 	CapabilityAudioSchema,
 	CapabilityImageSchema,
 	CapabilityVideoSchema,
