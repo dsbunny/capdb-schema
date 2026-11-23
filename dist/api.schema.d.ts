@@ -1,4 +1,21 @@
 import * as z from "zod";
+export declare const CreateVideoCapabilityBodySchema: z.ZodObject<{
+    '@type': z.ZodLiteral<"CreateVideoCapabilityRequest">;
+    video_capabilities: z.ZodArray<z.ZodObject<{
+        mime_subtype: z.ZodString;
+        is_supported: z.ZodBoolean;
+        is_smooth: z.ZodBoolean;
+        is_power_efficient: z.ZodBoolean;
+        '@type': z.ZodLiteral<"CapabilityVideo">;
+        mime_type: z.ZodLiteral<"video">;
+        codec: z.ZodString;
+        width: z.ZodNumber;
+        height: z.ZodNumber;
+        frame_rate: z.ZodNumber;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export type CreateVideoCapabilityBody = z.infer<typeof CreateVideoCapabilityBodySchema>;
+/** @deprecated Use CreateVideoCapabilityBodySchema. */
 export declare const CreateVideoCapabilityRequestSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateVideoCapabilityRequest">;
     video_capabilities: z.ZodArray<z.ZodObject<{
@@ -14,11 +31,28 @@ export declare const CreateVideoCapabilityRequestSchema: z.ZodObject<{
         frame_rate: z.ZodNumber;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequestSchema>;
+/** @deprecated Use CreateVideoCapabilityBody. */
+export type CreateVideoCapabilityRequest = CreateVideoCapabilityBody;
 export declare const CreateVideoCapabilityResponseSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateVideoCapabilityResponse">;
 }, z.core.$strip>;
 export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponseSchema>;
+export declare const CreateAudioCapabilityBodySchema: z.ZodObject<{
+    '@type': z.ZodLiteral<"CreateAudioCapabilityRequest">;
+    audio_capabilities: z.ZodArray<z.ZodObject<{
+        mime_subtype: z.ZodString;
+        is_supported: z.ZodBoolean;
+        is_smooth: z.ZodBoolean;
+        is_power_efficient: z.ZodBoolean;
+        '@type': z.ZodLiteral<"CapabilityAudio">;
+        mime_type: z.ZodLiteral<"audio">;
+        codec: z.ZodString;
+        sample_rate: z.ZodNumber;
+        channels: z.ZodString;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export type CreateAudioCapabilityBody = z.infer<typeof CreateAudioCapabilityBodySchema>;
+/** @deprecated Use CreateAudioCapabilityBodySchema. */
 export declare const CreateAudioCapabilityRequestSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateAudioCapabilityRequest">;
     audio_capabilities: z.ZodArray<z.ZodObject<{
@@ -33,11 +67,27 @@ export declare const CreateAudioCapabilityRequestSchema: z.ZodObject<{
         channels: z.ZodString;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequestSchema>;
+/** @deprecated Use CreateAudioCapabilityBody. */
+export type CreateAudioCapabilityRequest = CreateAudioCapabilityBody;
 export declare const CreateAudioCapabilityResponseSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateAudioCapabilityResponse">;
 }, z.core.$strip>;
 export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponseSchema>;
+export declare const CreateImageCapabilityBodySchema: z.ZodObject<{
+    '@type': z.ZodLiteral<"CreateImageCapabilityRequest">;
+    image_capabilities: z.ZodArray<z.ZodObject<{
+        mime_subtype: z.ZodString;
+        is_supported: z.ZodBoolean;
+        '@type': z.ZodLiteral<"CapabilityImage">;
+        mime_type: z.ZodLiteral<"image">;
+        width: z.ZodNumber;
+        height: z.ZodNumber;
+        is_smooth: z.ZodLiteral<false>;
+        is_power_efficient: z.ZodLiteral<true>;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export type CreateImageCapabilityBody = z.infer<typeof CreateImageCapabilityBodySchema>;
+/** @deprecated Use CreateImageCapabilityBodySchema. */
 export declare const CreateImageCapabilityRequestSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateImageCapabilityRequest">;
     image_capabilities: z.ZodArray<z.ZodObject<{
@@ -51,7 +101,8 @@ export declare const CreateImageCapabilityRequestSchema: z.ZodObject<{
         is_power_efficient: z.ZodLiteral<true>;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequestSchema>;
+/** @deprecated Use CreateImageCapabilityBody. */
+export type CreateImageCapabilityRequest = CreateImageCapabilityBody;
 export declare const CreateImageCapabilityResponseSchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateImageCapabilityResponse">;
 }, z.core.$strip>;
@@ -219,4 +270,9 @@ export declare const CapDbResponseSchema: z.ZodUnion<readonly [z.ZodObject<{
     timestamp: z.ZodISODateTime;
 }, z.core.$strip>]>;
 export type CapDbResponse = z.infer<typeof CapDbResponseSchema>;
+export declare const ListCapabilitiesQuerySchema: z.ZodObject<{
+    max_results: z.ZodOptional<z.ZodString>;
+    next_token: z.ZodOptional<z.ZodString>;
+}, z.core.$strip>;
+export type ListCapabilitiesQuery = z.infer<typeof ListCapabilitiesQuerySchema>;
 //# sourceMappingURL=api.schema.d.ts.map

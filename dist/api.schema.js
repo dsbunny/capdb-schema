@@ -5,7 +5,7 @@ import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 import { ErrorResponseSchema } from "@dsbunny/error-schema";
 import { CapabilityAudioSchema, CapabilityImageSchema, CapabilityVideoSchema, } from './capability.schema.js';
 // #region Capabilities
-export const CreateVideoCapabilityRequestSchema = z.object({
+export const CreateVideoCapabilityBodySchema = z.object({
     '@type': z.literal('CreateVideoCapabilityRequest')
         .describe('Type of the create video capability request'),
     video_capabilities: z.array(CapabilityVideoSchema)
@@ -13,6 +13,8 @@ export const CreateVideoCapabilityRequestSchema = z.object({
     id: 'CreateVideoCapabilityRequestSchema',
     description: 'Create video capability request schema',
 });
+/** @deprecated Use CreateVideoCapabilityBodySchema. */
+export const CreateVideoCapabilityRequestSchema = CreateVideoCapabilityBodySchema;
 export const CreateVideoCapabilityResponseSchema = z.object({
     '@type': z.literal('CreateVideoCapabilityResponse')
         .describe('Type of the create video capability response'),
@@ -20,7 +22,7 @@ export const CreateVideoCapabilityResponseSchema = z.object({
     id: 'CreateVideoCapabilityResponseSchema',
     description: 'Create video capability response schema',
 });
-export const CreateAudioCapabilityRequestSchema = z.object({
+export const CreateAudioCapabilityBodySchema = z.object({
     '@type': z.literal('CreateAudioCapabilityRequest')
         .describe('Type of the create audio capability request'),
     audio_capabilities: z.array(CapabilityAudioSchema)
@@ -28,6 +30,8 @@ export const CreateAudioCapabilityRequestSchema = z.object({
     id: 'CreateAudioCapabilityRequestSchema',
     description: 'Create audio capability request schema',
 });
+/** @deprecated Use CreateAudioCapabilityBodySchema. */
+export const CreateAudioCapabilityRequestSchema = CreateAudioCapabilityBodySchema;
 export const CreateAudioCapabilityResponseSchema = z.object({
     '@type': z.literal('CreateAudioCapabilityResponse')
         .describe('Type of the create audio capability response'),
@@ -35,7 +39,7 @@ export const CreateAudioCapabilityResponseSchema = z.object({
     id: 'CreateAudioCapabilityResponseSchema',
     description: 'Create audio capability response schema',
 });
-export const CreateImageCapabilityRequestSchema = z.object({
+export const CreateImageCapabilityBodySchema = z.object({
     '@type': z.literal('CreateImageCapabilityRequest')
         .describe('Type of the create image capability request'),
     image_capabilities: z.array(CapabilityImageSchema)
@@ -43,6 +47,8 @@ export const CreateImageCapabilityRequestSchema = z.object({
     id: 'CreateImageCapabilityRequestSchema',
     description: 'Create image capability request schema',
 });
+/** @deprecated Use CreateImageCapabilityBodySchema. */
+export const CreateImageCapabilityRequestSchema = CreateImageCapabilityBodySchema;
 export const CreateImageCapabilityResponseSchema = z.object({
     '@type': z.literal('CreateImageCapabilityResponse')
         .describe('Type of the create image capability response'),
@@ -107,9 +113,9 @@ export const GetImageCapabiltiesResponseSchema = z.object({
 // #endregion
 // #region API
 export const CapDbRequestSchema = z.union([
-    CreateVideoCapabilityRequestSchema,
-    CreateAudioCapabilityRequestSchema,
-    CreateImageCapabilityRequestSchema,
+    CreateVideoCapabilityBodySchema,
+    CreateAudioCapabilityBodySchema,
+    CreateImageCapabilityBodySchema,
     GetVideoCapabiltiesRequestSchema,
     GetAudioCapabiltiesRequestSchema,
     GetImageCapabiltiesRequestSchema,
@@ -130,4 +136,11 @@ export const CapDbResponseSchema = z.union([
     description: 'CapDB response schema',
 });
 // #endregion
+export const ListCapabilitiesQuerySchema = z.object({
+    max_results: z.string().optional(),
+    next_token: z.string().optional(),
+}).register(dsbunnyRegistry, {
+    id: 'ListCapabilitiesQuerySchema',
+    description: 'ListCapabilitiesQuery schema',
+});
 //# sourceMappingURL=api.schema.js.map

@@ -11,7 +11,7 @@ import {
 } from './capability.schema.js';
 
 // #region Capabilities
-export const CreateVideoCapabilityRequestSchema = z.object({
+export const CreateVideoCapabilityBodySchema = z.object({
 	'@type': z.literal('CreateVideoCapabilityRequest')
 		.describe('Type of the create video capability request'),
 	video_capabilities: z.array(CapabilityVideoSchema)
@@ -19,7 +19,11 @@ export const CreateVideoCapabilityRequestSchema = z.object({
 	id: 'CreateVideoCapabilityRequestSchema',
 	description: 'Create video capability request schema',
 });
-export type CreateVideoCapabilityRequest = z.infer<typeof CreateVideoCapabilityRequestSchema>;
+export type CreateVideoCapabilityBody = z.infer<typeof CreateVideoCapabilityBodySchema>;
+/** @deprecated Use CreateVideoCapabilityBodySchema. */
+export const CreateVideoCapabilityRequestSchema = CreateVideoCapabilityBodySchema;
+/** @deprecated Use CreateVideoCapabilityBody. */
+export type CreateVideoCapabilityRequest = CreateVideoCapabilityBody;
 export const CreateVideoCapabilityResponseSchema = z.object({
 	'@type': z.literal('CreateVideoCapabilityResponse')
 		.describe('Type of the create video capability response'),
@@ -29,7 +33,7 @@ export const CreateVideoCapabilityResponseSchema = z.object({
 });
 export type CreateVideoCapabilityResponse = z.infer<typeof CreateVideoCapabilityResponseSchema>;
 
-export const CreateAudioCapabilityRequestSchema = z.object({
+export const CreateAudioCapabilityBodySchema = z.object({
 	'@type': z.literal('CreateAudioCapabilityRequest')
 		.describe('Type of the create audio capability request'),
 	audio_capabilities: z.array(CapabilityAudioSchema)
@@ -37,7 +41,11 @@ export const CreateAudioCapabilityRequestSchema = z.object({
 	id: 'CreateAudioCapabilityRequestSchema',
 	description: 'Create audio capability request schema',
 });
-export type CreateAudioCapabilityRequest = z.infer<typeof CreateAudioCapabilityRequestSchema>;
+export type CreateAudioCapabilityBody = z.infer<typeof CreateAudioCapabilityBodySchema>;
+/** @deprecated Use CreateAudioCapabilityBodySchema. */
+export const CreateAudioCapabilityRequestSchema = CreateAudioCapabilityBodySchema;
+/** @deprecated Use CreateAudioCapabilityBody. */
+export type CreateAudioCapabilityRequest = CreateAudioCapabilityBody;
 export const CreateAudioCapabilityResponseSchema = z.object({
 	'@type': z.literal('CreateAudioCapabilityResponse')
 		.describe('Type of the create audio capability response'),
@@ -47,7 +55,7 @@ export const CreateAudioCapabilityResponseSchema = z.object({
 });
 export type CreateAudioCapabilityResponse = z.infer<typeof CreateAudioCapabilityResponseSchema>;
 
-export const CreateImageCapabilityRequestSchema = z.object({
+export const CreateImageCapabilityBodySchema = z.object({
 	'@type': z.literal('CreateImageCapabilityRequest')
 		.describe('Type of the create image capability request'),
 	image_capabilities: z.array(CapabilityImageSchema)
@@ -55,7 +63,11 @@ export const CreateImageCapabilityRequestSchema = z.object({
 	id: 'CreateImageCapabilityRequestSchema',
 	description: 'Create image capability request schema',
 });
-export type CreateImageCapabilityRequest = z.infer<typeof CreateImageCapabilityRequestSchema>;
+export type CreateImageCapabilityBody = z.infer<typeof CreateImageCapabilityBodySchema>;
+/** @deprecated Use CreateImageCapabilityBodySchema. */
+export const CreateImageCapabilityRequestSchema = CreateImageCapabilityBodySchema;
+/** @deprecated Use CreateImageCapabilityBody. */
+export type CreateImageCapabilityRequest = CreateImageCapabilityBody;
 export const CreateImageCapabilityResponseSchema = z.object({
 	'@type': z.literal('CreateImageCapabilityResponse')
 		.describe('Type of the create image capability response'),
@@ -131,9 +143,9 @@ export type GetImageCapabiltiesResponse = z.infer<typeof GetImageCapabiltiesResp
 
 // #region API
 export const CapDbRequestSchema = z.union([
-	CreateVideoCapabilityRequestSchema,
-	CreateAudioCapabilityRequestSchema,
-	CreateImageCapabilityRequestSchema,
+	CreateVideoCapabilityBodySchema,
+	CreateAudioCapabilityBodySchema,
+	CreateImageCapabilityBodySchema,
 	GetVideoCapabiltiesRequestSchema,
 	GetAudioCapabiltiesRequestSchema,
 	GetImageCapabiltiesRequestSchema,
@@ -157,3 +169,12 @@ export const CapDbResponseSchema = z.union([
 });
 export type CapDbResponse = z.infer<typeof CapDbResponseSchema>;
 // #endregion
+
+export const ListCapabilitiesQuerySchema = z.object({
+	max_results: z.string().optional(),
+	next_token: z.string().optional(),
+}).register(dsbunnyRegistry, {
+	id: 'ListCapabilitiesQuerySchema',
+	description: 'ListCapabilitiesQuery schema',
+});
+export type ListCapabilitiesQuery = z.infer<typeof ListCapabilitiesQuerySchema>;

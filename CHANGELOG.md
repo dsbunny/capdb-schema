@@ -1,6 +1,7 @@
 # Changelog
 ## v5.0.9
 - Add `@type` fields to all schemas to enable discovery.
+- Rename `*RequestSchema` to `*BodySchema` to add `*QuerySchema` and `*ParamsSchema`.
 
 ## v4.1.8
 - Add `id` _ZOD_ metadata for schemas.
