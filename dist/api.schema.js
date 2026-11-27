@@ -4,6 +4,13 @@ import * as z from "zod";
 import { dsbunnyRegistry } from '@dsbunny/zod-registry';
 import { ErrorResponseSchema } from "@dsbunny/error-schema";
 import { CapabilityAudioSchema, CapabilityImageSchema, CapabilityVideoSchema, } from './capability.schema.js';
+export const CapDbPingResponseSchema = z.object({
+    ping: z.literal('pong'),
+    timestamp: z.iso.datetime(),
+}).register(dsbunnyRegistry, {
+    id: 'CapDbPingResponseSchema',
+    description: 'CapDB ping response schema',
+});
 // #region Capabilities
 export const CreateVideoCapabilityBodySchema = z.object({
     '@type': z.literal('CreateVideoCapabilityRequest')

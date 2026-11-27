@@ -1,4 +1,9 @@
 import * as z from "zod";
+export declare const CapDbPingResponseSchema: z.ZodObject<{
+    ping: z.ZodLiteral<"pong">;
+    timestamp: z.ZodISODateTime;
+}, z.core.$strip>;
+export type CapDbPingResponse = z.infer<typeof CapDbPingResponseSchema>;
 export declare const CreateVideoCapabilityBodySchema: z.ZodObject<{
     '@type': z.ZodLiteral<"CreateVideoCapabilityRequest">;
     video_capabilities: z.ZodArray<z.ZodObject<{
